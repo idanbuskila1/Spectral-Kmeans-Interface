@@ -150,6 +150,30 @@ double **calculateRotationMatrix(int N, double **A, double *c, double *s, int *i
 
     return P;
 }
+/*checks if given x is a minus zero*/
+int isMinusZero(double x){
+    int i=0;
+    if(x>=0 || x<=-1) return 0;
+    x*=-1;
+    for(;i<4;i++){
+        x*=10;
+        if(floor(x)!=0) return 0;
+    }
+    return 1;
+    }
+/*fixes minus zero eignvalue and corresponding eignvector*/
+void NormalizeMinusZero(double **ret, int N){
+    int i=0,j=0;
+    for(;i<N;i++){
+        if (isMinusZero(ret[0][i])){
+            ret[0][i] = 0.0;
+            for(j=1;j<N+1;j++){
+                ret[j][i]*=(-1);
+            }
+        }
+    }
+    
+}
 /* GETS: square Matrix A NxN
  RETURNS:FREES A, returns eignvalues and corresponding eignvectors, calculated with jacobi algorithm*/
 double **jacobiProcess(int N, double **A)
@@ -189,6 +213,7 @@ double **jacobiProcess(int N, double **A)
         ret[0][k] = A[k][k];
         ret[k + 1] = P[k];
     }
+    NormalizeMinusZero(ret, N);
     freeMatrix(A, N);
     free(P);
     return ret;

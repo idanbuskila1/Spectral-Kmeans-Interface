@@ -43,6 +43,8 @@ double **jacobiStep(double **A, int N, double c, double s, int i, int j);
 int isConverged(double **A, double **A2, int N);
 void freeMatrix(double **A, int N);
 double **MultuplyMatrices(double **A, double **B, int N);
+void NormalizeMinusZero(double **ret, int N);
+int isMinusZero(double x);
 /*kmeans.c*/
 void freeCords(cord *cor);
 void freeVectorGroup(vector *vec, int includeCords);
